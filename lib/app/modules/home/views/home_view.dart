@@ -12,7 +12,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.mainBackground,
       body: SingleChildScrollView(
         child: SizedBox(
           height: Get.height,
@@ -39,21 +39,21 @@ class HomeView extends GetView<HomeController> {
                       Text(
                         "Basic Details",
                         style: AppTextStyle.bold(
-                            fontSize: 12, color: AppColors.pinkAccent),
+                            fontSize: 12, color: AppColors.pink),
                       ),
                       const SizedBox(
                         width: 25,
                       ),
                       Text(
                         "Social Details",
-                        style: AppTextStyle.bold(fontSize: 12),
+                        style: AppTextStyle.regular(fontSize: 12),
                       ),
                       const SizedBox(
                         width: 25,
                       ),
                       Text(
                         "Verification",
-                        style: AppTextStyle.bold(fontSize: 12),
+                        style: AppTextStyle.regular(fontSize: 12),
                       ),
                     ],
                   ),

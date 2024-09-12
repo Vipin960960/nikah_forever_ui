@@ -36,11 +36,6 @@ class CustomTextFormField extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         readOnly: onTap != null ? true : false,
-        onTap: () {
-          if (onTap != null) {
-            onTap!(controller.text);
-          }
-        },
         autovalidateMode: AutovalidateMode.onUserInteraction,
         textCapitalization: TextCapitalization.sentences,
         keyboardType: keyboardType ?? TextInputType.text,
@@ -48,17 +43,21 @@ class CustomTextFormField extends StatelessWidget {
         inputFormatters: inputFormatters,
         validator: validator,
         obscureText: obscureText ?? false,
+        onTap: () {
+          if (onTap != null) {
+            onTap!(controller.text);
+          }
+        },
         decoration: InputDecoration(
           filled: true,
           labelText: labelText,
           floatingLabelStyle:
               AppTextStyle.regular(fontSize: 15, color: AppColors.greyLight),
           labelStyle:
-              AppTextStyle.regular(fontSize: 13, color: AppColors.greyLight),
-          errorStyle:
-              AppTextStyle.regular(fontSize: 13, color: AppColors.redLight),
+              AppTextStyle.regular(fontSize: 12, color: AppColors.greyLight),
+          errorStyle: AppTextStyle.regular(fontSize: 13, color: AppColors.pink),
           contentPadding: const EdgeInsets.all(15),
-          fillColor: AppColors.white,
+          fillColor: AppColors.mainBackground,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(
@@ -84,14 +83,14 @@ class CustomTextFormField extends StatelessWidget {
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide(
-              color: AppColors.redLight,
+              color: AppColors.pink,
               width: 1.5,
             ),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide(
-              color: AppColors.redLight,
+              color: AppColors.pink,
               width: 1.5,
             ),
           ),

@@ -31,6 +31,23 @@ class HomeController extends GetxController {
 
   void onClickDateOfBirth() {
     CommonPopUp.showBottomSheetSearchAble(
-        context: Get.context, list: ["Hello", "Player", "Jango"]);
+        context: Get.context,
+        list: [
+          "Never married",
+          "Divorced",
+          "Separated",
+          "Widowed",
+          "Never married1",
+          "Divorced1",
+          "Separated1",
+          "Widowed1",
+          "Never married2",
+          "Divorced2",
+          "Separated2",
+          "Widowed2"
+        ],
+        title: 'Select Material Status*',
+        selectedValue: "Separated",
+        removeSearchBox: true);
   }
 }
