@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nikah_forever_ui/app/constants/app_form_list_data.dart';
 
+import '../../../routes/app_pages.dart';
 import '../../../utils/common_pop_up.dart';
 
 class SocialDetailController extends GetxController {
@@ -158,6 +159,7 @@ class SocialDetailController extends GetxController {
       isHittingApi.value = true;
       await Future.delayed(const Duration(seconds: 2));
       isHittingApi.value = false;
+      Get.toNamed(Routes.VERIFICATION);
     }
   }
 }
