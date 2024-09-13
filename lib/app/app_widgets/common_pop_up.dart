@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:nikah_forever_ui/app/app_widgets/app_text_style.dart';
 import 'package:nikah_forever_ui/app/app_widgets/custom_text_form_field.dart';
 
 import '../constants/app_colors.dart';
 
 class CommonPopUp {
-  static void showBottomSheetCustom(
-      {BuildContext? context, required Widget widget}) {
+  static void showBottomSheetCustom({
+    BuildContext? context,
+    required Widget widget,
+    bool removeTopRounder = false,
+  }) {
     showModalBottomSheet(
       context: context!,
       backgroundColor: AppColors.white,
@@ -29,14 +33,15 @@ class CommonPopUp {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 60,
-                  height: 7,
-                  decoration: BoxDecoration(
-                    color: AppColors.greyLight,
-                    borderRadius: BorderRadius.circular(5),
+                if (!removeTopRounder)
+                  Container(
+                    width: 60,
+                    height: 7,
+                    decoration: BoxDecoration(
+                      color: AppColors.greyLight,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
-                ),
                 widget
               ],
             ),
@@ -52,6 +57,8 @@ class CommonPopUp {
     required String title,
     required String selectedValue,
     bool removeSearchBox = false,
+    double? bottomSheetHeight,
+    required Function(String) onTap,
   }) {
     TextEditingController controller = TextEditingController();
     showModalBottomSheet(
@@ -64,7 +71,8 @@ class CommonPopUp {
           padding: MediaQuery.of(context).viewInsets,
           duration: const Duration(milliseconds: 100),
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.55,
+            height:
+                bottomSheetHeight ?? MediaQuery.of(context).size.height * 0.55,
             decoration: BoxDecoration(
               color: AppColors.mainBackground,
               borderRadius: const BorderRadius.only(
@@ -101,6 +109,11 @@ class CommonPopUp {
                         child: CustomTextFormField(
                           controller: controller,
                           labelText: "Search",
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: AppColors.greyLight,
+                            size: 25,
+                          ),
                           validator: (value) {
                             return null;
                           },
@@ -114,27 +127,33 @@ class CommonPopUp {
                     itemCount: list.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(25, 8, 25, 15),
-                        child: Row(
-                          children: [
-                            Icon(
-                              selectedValue == list[index]
-                                  ? Icons.check_circle
-                                  : Icons.circle_outlined,
-                              size: 25,
-                              color: selectedValue == list[index]
-                                  ? AppColors.pink
-                                  : AppColors.blackLight,
-                            ),
-                            const SizedBox(
-                              width: 25,
-                            ),
-                            Text(
-                              list[index],
-                              style: AppTextStyle.regular(fontSize: 17),
-                            ),
-                          ],
+                      return InkWell(
+                        onTap: () {
+                          onTap(list[index]);
+                          Get.back();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(25, 8, 25, 15),
+                          child: Row(
+                            children: [
+                              Icon(
+                                selectedValue == list[index]
+                                    ? Icons.check_circle
+                                    : Icons.circle_outlined,
+                                size: 25,
+                                color: selectedValue == list[index]
+                                    ? AppColors.pink
+                                    : AppColors.blackLight,
+                              ),
+                              const SizedBox(
+                                width: 25,
+                              ),
+                              Text(
+                                list[index],
+                                style: AppTextStyle.regular(fontSize: 17),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },

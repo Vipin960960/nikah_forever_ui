@@ -94,7 +94,7 @@ class HomeView extends GetView<HomeController> {
                     labelText: "Height*",
                     suffixIcon: const Icon(Icons.keyboard_arrow_down),
                     onTap: (value) {
-                      controller.onClickDateOfBirth();
+                      controller.onClickHeight();
                     },
                     validator: (value) {
                       return null;
@@ -108,7 +108,7 @@ class HomeView extends GetView<HomeController> {
                     labelText: "Where do you live*",
                     suffixIcon: const Icon(Icons.keyboard_arrow_down),
                     onTap: (value) {
-                      controller.onClickDateOfBirth();
+                      controller.onClickWhereDoYouLive();
                     },
                     validator: (value) {
                       return null;
@@ -128,11 +128,33 @@ class HomeView extends GetView<HomeController> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      ChoiceButton(label: "Yes", onPressed: () {}),
+                      ChoiceButton(
+                        label: "Yes",
+                        onPressed:
+                            controller.onClickYesButtonDoesYourFamilyLive,
+                      ),
                       const SizedBox(width: 20),
-                      ChoiceButton(label: "No", onPressed: () {}),
+                      ChoiceButton(
+                        label: "No",
+                        onPressed: controller.onClickNoButtonDoesYourFamilyLive,
+                      ),
                     ],
                   ),
+
+                  const SizedBox(height: 10),
+                  CustomTextFormField(
+                    controller:
+                        controller.whereDoesYourFamilyLiveTextController,
+                    labelText: "Where does your family live*",
+                    suffixIcon: const Icon(Icons.keyboard_arrow_down),
+                    onTap: (value) {
+                      controller.onClickWhereDoesYourFamilyLive();
+                    },
+                    validator: (value) {
+                      return null;
+                    },
+                  ),
+
                   const Spacer(),
 
                   // Next Button

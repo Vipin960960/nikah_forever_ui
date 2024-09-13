@@ -10,6 +10,7 @@ class CustomTextFormField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
 
   final Widget? suffixIcon;
+  final Widget? prefixIcon;
 
   final bool? obscureText;
 
@@ -27,6 +28,7 @@ class CustomTextFormField extends StatelessWidget {
     this.inputFormatters,
     this.obscureText,
     this.suffixIcon,
+    this.prefixIcon,
   });
 
   @override
@@ -95,6 +97,7 @@ class CustomTextFormField extends StatelessWidget {
             ),
           ),
           suffixIcon: suffixIcon,
+          prefixIcon: prefixIcon,
         ),
       ),
     );
