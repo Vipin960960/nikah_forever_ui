@@ -16,6 +16,7 @@ class CustomTextFormField extends StatelessWidget {
 
   final void Function(String value)? onTap;
   final String? Function(String? value) validator;
+  final String Function(String value)? onChanged;
   final String? labelText;
 
   const CustomTextFormField({
@@ -23,6 +24,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.controller,
     required this.validator,
     required this.labelText,
+    this.onChanged,
     this.onTap,
     this.keyboardType,
     this.inputFormatters,
@@ -44,6 +46,7 @@ class CustomTextFormField extends StatelessWidget {
         style: AppTextStyle.regular(),
         inputFormatters: inputFormatters,
         validator: validator,
+        onChanged: onChanged,
         obscureText: obscureText ?? false,
         onTap: () {
           if (onTap != null) {
