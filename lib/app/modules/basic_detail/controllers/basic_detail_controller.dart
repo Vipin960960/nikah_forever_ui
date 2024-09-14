@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:nikah_forever_ui/app/constants/app_form_list_data.dart';
 
 import '../../../routes/app_pages.dart';
+import '../../../utils/common_methods.dart';
 import '../../../utils/common_pop_up.dart';
 import '../views/components/date_of_birth_pop_up.dart';
 
@@ -18,10 +19,16 @@ class BasicDetailController extends GetxController {
 
   //isLivingWithFamily Value = 1 will be Yes, Value = 2 will be No
   RxInt isLivingWithFamily = 0.obs;
+
   RxBool isHittingApi = false.obs;
 
   String dateString = "";
+
   List<String>? date = [];
+
+  late final DateTime minDate;
+  late final DateTime maxDate;
+  late DateTime selectedDate;
 
   @override
   void onInit() {
@@ -30,6 +37,19 @@ class BasicDetailController extends GetxController {
     heightTextController = TextEditingController();
     whereDoYouLiveTextController = TextEditingController();
     whereDoesYourFamilyLiveTextController = TextEditingController();
+
+    final currentDate = DateTime.now();
+    minDate = DateTime(
+      currentDate.year - 100,
+      currentDate.month,
+      currentDate.day,
+    );
+    maxDate = DateTime(
+      currentDate.year - 18,
+      currentDate.month,
+      currentDate.day,
+    );
+    selectedDate = maxDate;
 
     super.onInit();
   }
@@ -64,6 +84,7 @@ class BasicDetailController extends GetxController {
       removeSearchBox: true,
       onTap: (value) {
         heightTextController.text = value;
+        callListWhichIsEmpty("height");
       },
     );
   }
@@ -96,7 +117,8 @@ class BasicDetailController extends GetxController {
           selectedValue: selectedState,
           onTap: (state) async {
             // Selecting city
-            await Future.delayed(const Duration(milliseconds: 100));
+            await CommonMethods.timerForNextList();
+
             CommonPopUp.showBottomSheetList(
               context: Get.context,
               height: Get.height * 0.7,
@@ -105,6 +127,7 @@ class BasicDetailController extends GetxController {
               selectedValue: selectedCity,
               onTap: (city) {
                 controller.text = "$country, $state, $city";
+                callListWhichIsEmpty("whereDoYouLive");
               },
             );
           },
@@ -127,12 +150,30 @@ class BasicDetailController extends GetxController {
       await Future.delayed(const Duration(seconds: 2));
       isHittingApi.value = false;
 
-      Get.toNamed(Routes.SOCIAL_DETAIL);
+      Get.offNamed(Routes.SOCIAL_DETAIL);
     }
   }
 
   void onClickConfirmOfDateOfBirth(value) {
     dateOfBirthTextController.text = value;
     Get.back();
+    callListWhichIsEmpty("date");
+  }
+
+  Future<void> callListWhichIsEmpty(comingFrom) async {
+    await CommonMethods.timerForNextList();
+
+    if (comingFrom == "date" && heightTextController.text.isEmpty) {
+      onClickHeight();
+    } else if (comingFrom == "height" &&
+        whereDoYouLiveTextController.text.isEmpty) {
+      onClickWhereDoYouLive(whereDoYouLiveTextController);
+    } else if (dateOfBirthTextController.text.isEmpty) {
+      onClickDateOfBirth();
+    } else if (heightTextController.text.isEmpty) {
+      onClickHeight();
+    } else if (whereDoYouLiveTextController.text.isEmpty) {
+      onClickWhereDoYouLive(whereDoYouLiveTextController);
+    }
   }
 }

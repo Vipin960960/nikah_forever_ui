@@ -5,4 +5,8 @@ class CommonMethods {
     }
     return null;
   }
+
+  static Future<void> timerForNextList() async {
+    await Future.delayed(const Duration(milliseconds: 100));
+  }
 }

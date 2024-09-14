@@ -73,41 +73,41 @@ class BasicDetailView extends GetView<BasicDetailController> {
                           CustomTextFormField(
                             controller: controller.nameTextController,
                             labelText: "Enter your name",
+                            keyboardType: TextInputType.name,
                             validator: (value) {
                               return null;
                             },
-                            keyboardType: TextInputType.name,
                           ),
                           const SizedBox(height: 10),
                           CustomTextFormField(
                             controller: controller.dateOfBirthTextController,
                             labelText: "Date of birth*",
                             suffixIcon: const Icon(Icons.keyboard_arrow_down),
+                            validator: CommonMethods.commonValidation,
                             onTap: (value) {
                               controller.onClickDateOfBirth();
                             },
-                            validator: CommonMethods.commonValidation,
                           ),
                           const SizedBox(height: 10),
                           CustomTextFormField(
                             controller: controller.heightTextController,
                             labelText: "Height*",
                             suffixIcon: const Icon(Icons.keyboard_arrow_down),
+                            validator: CommonMethods.commonValidation,
                             onTap: (value) {
                               controller.onClickHeight();
                             },
-                            validator: CommonMethods.commonValidation,
                           ),
                           const SizedBox(height: 10),
                           CustomTextFormField(
                             controller: controller.whereDoYouLiveTextController,
                             labelText: "Where do you live*",
                             suffixIcon: const Icon(Icons.keyboard_arrow_down),
+                            validator: CommonMethods.commonValidation,
                             onTap: (value) {
                               controller.onClickWhereDoYouLive(
                                   controller.whereDoYouLiveTextController);
                             },
-                            validator: CommonMethods.commonValidation,
                           ),
                           const SizedBox(height: 20),
                           Text(

@@ -6,14 +6,17 @@ import 'package:nikah_forever_ui/app/app_widgets/custom_text_form_field.dart';
 import '../constants/app_colors.dart';
 
 class CommonPopUp {
+  static String containCategory = "";
+
   static void showBottomSheetCustom({
     BuildContext? context,
     required Widget widget,
     bool removeTopRounder = false,
+    double? height,
   }) {
     showModalBottomSheet(
       context: context!,
-      backgroundColor: AppColors.mainBackground,
+      backgroundColor: AppColors.white,
       isScrollControlled: true,
       isDismissible: true,
       builder: (context) {
@@ -21,7 +24,7 @@ class CommonPopUp {
           padding: MediaQuery.of(context).viewInsets,
           duration: const Duration(milliseconds: 100),
           child: Container(
-            height: Get.height * 0.55,
+            height: height,
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: const BorderRadius.only(
@@ -60,10 +63,12 @@ class CommonPopUp {
     double? height,
     required Function(String) onTap,
   }) {
+    TextEditingController controller = TextEditingController();
+
     List<String> searchedList = [];
     searchedList.addAll(list);
+    containCategory = "";
 
-    TextEditingController controller = TextEditingController();
     showModalBottomSheet(
       context: context!,
       backgroundColor: AppColors.white,
@@ -74,7 +79,7 @@ class CommonPopUp {
           padding: MediaQuery.of(context).viewInsets,
           duration: const Duration(milliseconds: 100),
           child: Container(
-            height: height ?? MediaQuery.of(context).size.height * 0.55,
+            height: height ?? Get.height * 0.55,
             decoration: BoxDecoration(
               color: AppColors.mainBackground,
               borderRadius: const BorderRadius.only(
@@ -82,103 +87,149 @@ class CommonPopUp {
                 topRight: Radius.circular(25.0),
               ),
             ),
-            child: StatefulBuilder(builder: (BuildContext context,
-                StateSetter setState /*You can rename this!*/) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Center(
-                    child: Container(
-                      height: 6,
-                      width: 90,
-                      margin: const EdgeInsets.only(top: 15, bottom: 20),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColors.greyLight,
+            child: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                containCategory = "";
+
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Center(
+                      child: Container(
+                        height: 6,
+                        width: 90,
+                        margin: const EdgeInsets.only(top: 15, bottom: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColors.greyLight,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Text(
-                      title,
-                      style: AppTextStyle.bold(fontSize: 18),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: Text(
+                        title,
+                        style: AppTextStyle.bold(fontSize: 18),
+                      ),
                     ),
-                  ),
-                  (!removeSearchBox)
-                      ? Padding(
-                          padding: const EdgeInsets.fromLTRB(25, 15, 25, 0),
-                          child: CustomTextFormField(
-                            controller: controller,
-                            labelText: "Search",
-                            prefixIcon: Icon(
-                              Icons.search,
-                              color: AppColors.greyLight,
-                              size: 25,
+                    (!removeSearchBox)
+                        ? Padding(
+                            padding: const EdgeInsets.fromLTRB(25, 15, 25, 0),
+                            child: CustomTextFormField(
+                              controller: controller,
+                              labelText: "Search",
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: AppColors.greyLight,
+                                size: 25,
+                              ),
+                              onChanged: (value) {
+                                searchedList = [];
+                                searchedList.addAll(list
+                                    .where((item) => item
+                                        .toLowerCase()
+                                        .replaceAll(".", "")
+                                        .contains(value
+                                            .toLowerCase()
+                                            .replaceAll(".", "")
+                                            .trim()))
+                                    .toList());
+                                setState(() {});
+                                return value;
+                              },
+                              validator: (value) {
+                                return null;
+                              },
                             ),
-                            onChanged: (value) {
-                              searchedList = [];
-                              searchedList.addAll(list
-                                  .where((item) => item
-                                      .toLowerCase()
-                                      .contains(value.toLowerCase()))
-                                  .toList());
-                              setState(() {});
-                              return value;
-                            },
-                            validator: (value) {
-                              return null;
-                            },
+                          )
+                        : const SizedBox(
+                            height: 15,
                           ),
-                        )
-                      : const SizedBox(
-                          height: 15,
-                        ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: searchedList.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            onTap(searchedList[index]);
-                            Get.back();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(25, 8, 25, 15),
-                            child: Row(
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          for (int index = 0;
+                              index < searchedList.length;
+                              index++)
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(
-                                  selectedValue == searchedList[index]
-                                      ? Icons.check_circle
-                                      : Icons.circle_outlined,
-                                  size: 25,
-                                  color: selectedValue == searchedList[index]
-                                      ? AppColors.pink
-                                      : AppColors.blackLight,
-                                ),
-                                const SizedBox(
-                                  width: 25,
-                                ),
-                                Text(
-                                  searchedList[index],
-                                  style: AppTextStyle.regular(fontSize: 17),
+                                if (searchedList[index].contains("##") &&
+                                    !containCategory.contains(
+                                        searchedList[index].split("##")[0]))
+                                  getCategoryText(
+                                      searchedList[index].split("##")[0]),
+                                InkWell(
+                                  onTap: () {
+                                    onTap(getSplitValue(searchedList[index]));
+                                    Get.back();
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        25, 8, 25, 15),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          selectedValue ==
+                                                  getSplitValue(
+                                                      searchedList[index])
+                                              ? Icons.check_circle
+                                              : Icons.circle_outlined,
+                                          size: 25,
+                                          color: selectedValue ==
+                                                  getSplitValue(
+                                                      searchedList[index])
+                                              ? AppColors.pink
+                                              : AppColors.blackLight,
+                                        ),
+                                        const SizedBox(
+                                          width: 25,
+                                        ),
+                                        getSearchText(searchedList[index]),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ],
-                            ),
-                          ),
-                        );
-                      },
+                            )
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              );
-            }),
+                  ],
+                );
+              },
+            ),
           ),
         );
       },
+    );
+  }
+
+  static Widget getSearchText(String value) {
+    final text = getSplitValue(value);
+
+    return Text(
+      text,
+      style: AppTextStyle.regular(fontSize: 17),
+    );
+  }
+
+  static getSplitValue(value) {
+    return value.contains("##") ? value.split("##")[1] : value;
+  }
+
+  static Widget getCategoryText(String value) {
+    containCategory += value;
+    return Padding(
+      padding: const EdgeInsets.only(left: 15.0, bottom: 7),
+      child: Text(
+        value,
+        style: AppTextStyle.bold(fontSize: 17),
+      ),
     );
   }
 }

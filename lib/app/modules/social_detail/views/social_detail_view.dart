@@ -39,7 +39,7 @@ class SocialDetailView extends GetView<SocialDetailController> {
                       color: AppColors.white,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 6,
                   ),
                   const CustomLinearProgress(progress: 1),
@@ -80,92 +80,110 @@ class SocialDetailView extends GetView<SocialDetailController> {
                     height: Get.height,
                     child: Form(
                       key: controller.socialDetailFormKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CustomTextFormField(
-                            controller: controller.maritalStatusTextController,
-                            labelText: "Marital Status*",
-                            suffixIcon: const Icon(Icons.keyboard_arrow_down),
-                            validator: CommonMethods.commonValidation,
-                            onTap: (value) {
-                              controller.onClickMaritalStatus();
-                            },
-                          ),
-                          const SizedBox(height: 3),
-                          CustomTextFormField(
-                            controller: controller.motherTongueTextController,
-                            labelText: "Mother Tongue*",
-                            suffixIcon: const Icon(Icons.keyboard_arrow_down),
-                            validator: CommonMethods.commonValidation,
-                            onTap: (value) {
-                              controller.onClickMotherTongue();
-                            },
-                          ),
-                          const SizedBox(height: 3),
-                          CustomTextFormField(
-                            controller: controller.sectCasteTextController,
-                            labelText: "Sect/Caste",
-                            suffixIcon: const Icon(Icons.keyboard_arrow_down),
-                            validator: CommonMethods.commonValidation,
-                            onTap: (value) {
-                              controller.onClickSectCaste();
-                            },
-                          ),
-                          const SizedBox(height: 3),
-                          CustomTextFormField(
-                            controller: controller.maslakTextController,
-                            labelText: "Maslak (Optional)",
-                            suffixIcon: const Icon(Icons.keyboard_arrow_down),
-                            validator: CommonMethods.commonValidation,
-                            onTap: (value) {
-                              controller.onClickMaslak();
-                            },
-                          ),
-                          const SizedBox(height: 3),
-                          CustomTextFormField(
-                            controller:
-                                controller.highestEducationTextController,
-                            labelText: "Highest Education*",
-                            suffixIcon: const Icon(Icons.keyboard_arrow_down),
-                            validator: CommonMethods.commonValidation,
-                            onTap: (value) {
-                              controller.onClickHighestEducation();
-                            },
-                          ),
-                          const SizedBox(height: 3),
-                          CustomTextFormField(
-                            controller: controller.employedInTextController,
-                            labelText: "Employed In*",
-                            suffixIcon: const Icon(Icons.keyboard_arrow_down),
-                            validator: CommonMethods.commonValidation,
-                            onTap: (value) {
-                              controller.onClickEmployedIn();
-                            },
-                          ),
-                          const SizedBox(height: 3),
-                          CustomTextFormField(
-                            controller: controller.occupationTextController,
-                            labelText: "Occupation*",
-                            suffixIcon: const Icon(Icons.keyboard_arrow_down),
-                            validator: CommonMethods.commonValidation,
-                            onTap: (value) {
-                              controller.onClickOccupation();
-                            },
-                          ),
-                          const SizedBox(height: 3),
-                          CustomTextFormField(
-                            controller: controller.annualIncomeTextController,
-                            labelText: "Annual Income*",
-                            suffixIcon: const Icon(Icons.keyboard_arrow_down),
-                            validator: CommonMethods.commonValidation,
-                            onTap: (value) {
-                              controller.onClickAnnualIncome();
-                            },
-                          ),
-                        ],
+                      child: Obx(
+                        () => Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CustomTextFormField(
+                              controller:
+                                  controller.maritalStatusTextController,
+                              labelText: "Marital Status*",
+                              suffixIcon: const Icon(Icons.keyboard_arrow_down),
+                              validator: CommonMethods.commonValidation,
+                              onTap: (value) {
+                                controller.onClickMaritalStatus();
+                              },
+                            ),
+                            const SizedBox(height: 3),
+                            CustomTextFormField(
+                              controller: controller.motherTongueTextController,
+                              labelText: "Mother Tongue*",
+                              suffixIcon: const Icon(Icons.keyboard_arrow_down),
+                              validator: CommonMethods.commonValidation,
+                              onTap: (value) {
+                                controller.onClickMotherTongue();
+                              },
+                            ),
+                            const SizedBox(height: 3),
+                            CustomTextFormField(
+                              controller: controller.sectCasteTextController,
+                              labelText: "Sect/Caste",
+                              suffixIcon: const Icon(Icons.keyboard_arrow_down),
+                              validator: CommonMethods.commonValidation,
+                              onTap: (value) {
+                                controller.onClickSectCaste();
+                              },
+                            ),
+                            if (controller.selectedCasteString.value.isNotEmpty)
+                              const SizedBox(height: 3),
+                            if (controller.selectedCasteString.value.isNotEmpty)
+                              CustomTextFormField(
+                                controller: controller.maslakTextController,
+                                labelText: "Maslak (Optional)",
+                                suffixIcon:
+                                    const Icon(Icons.keyboard_arrow_down),
+                                validator: (value) => null,
+                                onTap: (value) {
+                                  controller.onClickMaslak();
+                                },
+                              ),
+                            const SizedBox(height: 3),
+                            CustomTextFormField(
+                              controller:
+                                  controller.highestEducationTextController,
+                              labelText: "Highest Education*",
+                              suffixIcon: const Icon(Icons.keyboard_arrow_down),
+                              validator: CommonMethods.commonValidation,
+                              onTap: (value) {
+                                controller.onClickHighestEducation();
+                              },
+                            ),
+                            if (controller
+                                .selectedHigherEducation.value.isNotEmpty)
+                              const SizedBox(height: 3),
+                            if (controller
+                                .selectedHigherEducation.value.isNotEmpty)
+                              CustomTextFormField(
+                                controller: controller.employedInTextController,
+                                labelText: "Employed In*",
+                                suffixIcon:
+                                    const Icon(Icons.keyboard_arrow_down),
+                                validator: CommonMethods.commonValidation,
+                                onTap: (value) {
+                                  controller.onClickEmployedIn();
+                                },
+                              ),
+                            if (controller.selectedEmployedIn.value.isNotEmpty)
+                              const SizedBox(height: 3),
+                            if (controller.selectedEmployedIn.value.isNotEmpty)
+                              CustomTextFormField(
+                                controller: controller.occupationTextController,
+                                labelText: "Occupation*",
+                                suffixIcon:
+                                    const Icon(Icons.keyboard_arrow_down),
+                                validator: CommonMethods.commonValidation,
+                                onTap: (value) {
+                                  controller.onClickOccupation();
+                                },
+                              ),
+                            if (controller.selectedEmployedIn.value.isNotEmpty)
+                              const SizedBox(height: 3),
+                            if (controller.selectedEmployedIn.value.isNotEmpty)
+                              CustomTextFormField(
+                                controller:
+                                    controller.annualIncomeTextController,
+                                labelText: "Annual Income*",
+                                suffixIcon:
+                                    const Icon(Icons.keyboard_arrow_down),
+                                validator: CommonMethods.commonValidation,
+                                onTap: (value) {
+                                  controller.onClickAnnualIncome();
+                                },
+                              ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
