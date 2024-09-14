@@ -38,9 +38,9 @@ class DateOfBirthPopUp extends GetView<BasicDetailController> {
           height: 320,
           child: CustomDatePicker(
             itemExtent: 50,
-            minDate: controller.minDate,
-            maxDate: controller.maxDate,
-            selectedDate: controller.selectedDate,
+            minDate: controller.minDateOfBirth,
+            maxDate: controller.maxDateOfBirth,
+            selectedDate: controller.selectedDateOfBirth,
             selectionOverlay: Container(
               width: double.infinity,
               height: 50,
@@ -53,12 +53,13 @@ class DateOfBirthPopUp extends GetView<BasicDetailController> {
             selectedStyle: AppTextStyle.regular(fontSize: 20),
             unselectedStyle: AppTextStyle.regular(fontSize: 20),
             disabledStyle: AppTextStyle.regular(fontSize: 20),
-            onSelectedItemChanged: (date) => controller.selectedDate = date,
+            onSelectedItemChanged: (date) =>
+                controller.selectedDateOfBirth = date,
           ),
         ),
         InkWell(
           onTap: () {
-            DateTime date = controller.selectedDate;
+            DateTime date = controller.selectedDateOfBirth;
             controller.onClickConfirmOfDateOfBirth(
                 "${date.day}-${date.month}-${date.year}");
           },

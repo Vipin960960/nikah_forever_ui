@@ -17,18 +17,14 @@ class BasicDetailController extends GetxController {
   late TextEditingController whereDoYouLiveTextController;
   late TextEditingController whereDoesYourFamilyLiveTextController;
 
-  //isLivingWithFamily Value = 1 will be Yes, Value = 2 will be No
+  //isLivingWithFamily Value = 1 will be Yes, Value = 2 will be No, Value = 4 will be error
   RxInt isLivingWithFamily = 0.obs;
 
   RxBool isHittingApi = false.obs;
 
-  String dateString = "";
-
-  List<String>? date = [];
-
-  late final DateTime minDate;
-  late final DateTime maxDate;
-  late DateTime selectedDate;
+  late final DateTime minDateOfBirth;
+  late final DateTime maxDateOfBirth;
+  late DateTime selectedDateOfBirth;
 
   @override
   void onInit() {
@@ -38,18 +34,23 @@ class BasicDetailController extends GetxController {
     whereDoYouLiveTextController = TextEditingController();
     whereDoesYourFamilyLiveTextController = TextEditingController();
 
+    // Selecting date of birth
     final currentDate = DateTime.now();
-    minDate = DateTime(
-      currentDate.year - 100,
+    minDateOfBirth = DateTime(
+      currentDate.year - 74,
       currentDate.month,
       currentDate.day,
     );
-    maxDate = DateTime(
-      currentDate.year - 18,
-      currentDate.month,
-      currentDate.day,
+    maxDateOfBirth = DateTime(
+      currentDate.year - 21,
+      12,
+      31,
     );
-    selectedDate = maxDate;
+    selectedDateOfBirth = DateTime(
+      maxDateOfBirth.year - 3,
+      7,
+      15,
+    );
 
     super.onInit();
   }
@@ -65,10 +66,6 @@ class BasicDetailController extends GetxController {
   }
 
   void onClickDateOfBirth() {
-    date = dateOfBirthTextController.text.isNotEmpty
-        ? dateOfBirthTextController.text.split("-")
-        : null;
-
     CommonPopUp.showBottomSheetCustom(
         context: Get.context,
         removeTopRounder: true,
@@ -78,8 +75,9 @@ class BasicDetailController extends GetxController {
   void onClickHeight() {
     CommonPopUp.showBottomSheetList(
       context: Get.context,
-      list: AppFormListData.instance.heightList,
+      height: Get.height * 0.7,
       title: 'Select Height*',
+      list: AppFormListData.instance.heightList,
       selectedValue: heightTextController.text,
       removeSearchBox: true,
       onTap: (value) {
@@ -100,25 +98,35 @@ class BasicDetailController extends GetxController {
       selectedState = oldCountry.split(", ")[1];
       selectedCity = oldCountry.split(", ")[2];
     }
+
+    List<String> countriesList =
+        AppFormListData.instance.countryMap.keys.toList();
+    countriesList.sort();
+
     CommonPopUp.showBottomSheetList(
       context: Get.context,
       height: Get.height * 0.7,
-      list: AppFormListData.instance.countryMap.keys.toList(),
+      list: countriesList,
       title: 'Select Country',
       selectedValue: selectedCountry,
       onTap: (country) async {
         // Selecting State
-        await Future.delayed(const Duration(milliseconds: 100));
+        List<String> statesList =
+            AppFormListData.instance.countryMap[country]!.keys.toList();
+        statesList.sort();
+        await CommonMethods.timerForNextList();
         CommonPopUp.showBottomSheetList(
           context: Get.context,
           height: Get.height * 0.7,
-          list: AppFormListData.instance.countryMap[country]!.keys.toList(),
+          list: statesList,
           title: 'State in $country',
           selectedValue: selectedState,
           onTap: (state) async {
             // Selecting city
+            List<String> citiesList =
+                AppFormListData.instance.countryMap[country]![state]!;
+            citiesList.sort();
             await CommonMethods.timerForNextList();
-
             CommonPopUp.showBottomSheetList(
               context: Get.context,
               height: Get.height * 0.7,
@@ -144,20 +152,28 @@ class BasicDetailController extends GetxController {
     isLivingWithFamily.value = 2;
   }
 
+  void onClickConfirmOfDateOfBirth(value) {
+    dateOfBirthTextController.text = value;
+    Get.back();
+    callListWhichIsEmpty("date");
+  }
+
   Future<void> onClickNext() async {
+    if (isLivingWithFamily.value == 0 || isLivingWithFamily.value == 4) {
+      isLivingWithFamily.value = 4; //Just to show red
+    }
     if (basicDetailFormKey.currentState!.validate()) {
+      if (isLivingWithFamily.value == 0 || isLivingWithFamily.value == 4) {
+        isLivingWithFamily.value = 4;
+        return;
+      }
+
       isHittingApi.value = true;
       await Future.delayed(const Duration(seconds: 2));
       isHittingApi.value = false;
 
       Get.offNamed(Routes.SOCIAL_DETAIL);
     }
-  }
-
-  void onClickConfirmOfDateOfBirth(value) {
-    dateOfBirthTextController.text = value;
-    Get.back();
-    callListWhichIsEmpty("date");
   }
 
   Future<void> callListWhichIsEmpty(comingFrom) async {

@@ -61,109 +61,129 @@ class BasicDetailView extends GetView<BasicDetailController> {
               const SizedBox(height: 30),
               Expanded(
                 child: SingleChildScrollView(
-                  child: SizedBox(
-                    height: Get.height * 0.9,
-                    child: Form(
-                      key: controller.basicDetailFormKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CustomTextFormField(
-                            controller: controller.nameTextController,
-                            labelText: "Enter your name",
-                            keyboardType: TextInputType.name,
-                            validator: (value) {
-                              return null;
-                            },
+                  child: Form(
+                    key: controller.basicDetailFormKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CustomTextFormField(
+                          controller: controller.nameTextController,
+                          labelText: "Enter your name",
+                          keyboardType: TextInputType.name,
+                          validator: (value) {
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 5),
+                        CustomTextFormField(
+                          controller: controller.dateOfBirthTextController,
+                          labelText: "Date of birth*",
+                          suffixIcon: const Icon(Icons.keyboard_arrow_down),
+                          validator: CommonMethods.commonValidation,
+                          onTap: (value) {
+                            controller.onClickDateOfBirth();
+                          },
+                        ),
+                        const SizedBox(height: 5),
+                        CustomTextFormField(
+                          controller: controller.heightTextController,
+                          labelText: "Height*",
+                          suffixIcon: const Icon(Icons.keyboard_arrow_down),
+                          validator: CommonMethods.commonValidation,
+                          onTap: (value) {
+                            controller.onClickHeight();
+                          },
+                        ),
+                        const SizedBox(height: 5),
+                        CustomTextFormField(
+                          controller: controller.whereDoYouLiveTextController,
+                          labelText: "Where do you live*",
+                          suffixIcon: const Icon(Icons.keyboard_arrow_down),
+                          validator: CommonMethods.commonValidation,
+                          onTap: (value) {
+                            controller.onClickWhereDoYouLive(
+                                controller.whereDoYouLiveTextController);
+                          },
+                        ),
+                        const SizedBox(height: 15),
+                        Text(
+                          "  Do you live with your family?",
+                          style: AppTextStyle.regular(
+                            fontSize: 13,
+                            color: AppColors.greyLight,
                           ),
-                          const SizedBox(height: 10),
-                          CustomTextFormField(
-                            controller: controller.dateOfBirthTextController,
-                            labelText: "Date of birth*",
-                            suffixIcon: const Icon(Icons.keyboard_arrow_down),
-                            validator: CommonMethods.commonValidation,
-                            onTap: (value) {
-                              controller.onClickDateOfBirth();
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          CustomTextFormField(
-                            controller: controller.heightTextController,
-                            labelText: "Height*",
-                            suffixIcon: const Icon(Icons.keyboard_arrow_down),
-                            validator: CommonMethods.commonValidation,
-                            onTap: (value) {
-                              controller.onClickHeight();
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          CustomTextFormField(
-                            controller: controller.whereDoYouLiveTextController,
-                            labelText: "Where do you live*",
-                            suffixIcon: const Icon(Icons.keyboard_arrow_down),
-                            validator: CommonMethods.commonValidation,
-                            onTap: (value) {
-                              controller.onClickWhereDoYouLive(
-                                  controller.whereDoYouLiveTextController);
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                          Text(
-                            "  Do you live with your family?",
-                            style: AppTextStyle.regular(
-                              fontSize: 13,
-                              color: AppColors.greyLight,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Obx(
-                            () => Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    ChoiceButton(
-                                      label: "Yes",
-                                      onPressed: controller
-                                          .onClickYesButtonDoesYourFamilyLive,
-                                      isPressed:
-                                          controller.isLivingWithFamily.value ==
-                                              1,
-                                    ),
-                                    const SizedBox(width: 20),
-                                    ChoiceButton(
-                                      label: "No",
-                                      onPressed: controller
-                                          .onClickNoButtonDoesYourFamilyLive,
-                                      isPressed:
-                                          controller.isLivingWithFamily.value ==
-                                              2,
-                                    ),
-                                  ],
-                                ),
-                                if (controller.isLivingWithFamily.value == 2)
-                                  const SizedBox(height: 10),
-                                if (controller.isLivingWithFamily.value == 2)
-                                  CustomTextFormField(
-                                    controller: controller
-                                        .whereDoesYourFamilyLiveTextController,
-                                    labelText: "Where does your family live*",
-                                    suffixIcon:
-                                        const Icon(Icons.keyboard_arrow_down),
-                                    onTap: (value) {
-                                      controller.onClickWhereDoYouLive(controller
-                                          .whereDoesYourFamilyLiveTextController);
-                                    },
-                                    validator: CommonMethods.commonValidation,
+                        ),
+                        const SizedBox(height: 5),
+                        Obx(
+                          () => Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  ChoiceButton(
+                                    label: "Yes",
+                                    onPressed: controller
+                                        .onClickYesButtonDoesYourFamilyLive,
+                                    isPressed:
+                                        controller.isLivingWithFamily.value == 1
+                                            ? 2
+                                            : controller.isLivingWithFamily
+                                                        .value ==
+                                                    4
+                                                ? 3
+                                                : 1,
                                   ),
-                              ],
-                            ),
+                                  const SizedBox(width: 20),
+                                  ChoiceButton(
+                                    label: "No",
+                                    onPressed: controller
+                                        .onClickNoButtonDoesYourFamilyLive,
+                                    isPressed:
+                                        controller.isLivingWithFamily.value == 2
+                                            ? 2
+                                            : controller.isLivingWithFamily
+                                                        .value ==
+                                                    4
+                                                ? 3
+                                                : 1,
+                                  ),
+                                ],
+                              ),
+                              if (controller.isLivingWithFamily.value == 4)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5.0),
+                                  child: Text(
+                                    "     This field can't be empty",
+                                    style: AppTextStyle.regular(
+                                      fontSize: 13,
+                                      color: AppColors.red,
+                                    ),
+                                  ),
+                                ),
+                              if (controller.isLivingWithFamily.value == 2)
+                                const SizedBox(height: 10),
+                              if (controller.isLivingWithFamily.value == 2)
+                                CustomTextFormField(
+                                  controller: controller
+                                      .whereDoesYourFamilyLiveTextController,
+                                  labelText: "Where does your family live*",
+                                  suffixIcon:
+                                      const Icon(Icons.keyboard_arrow_down),
+                                  onTap: (value) {
+                                    controller.onClickWhereDoYouLive(controller
+                                        .whereDoesYourFamilyLiveTextController);
+                                  },
+                                  validator: CommonMethods.commonValidation,
+                                ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

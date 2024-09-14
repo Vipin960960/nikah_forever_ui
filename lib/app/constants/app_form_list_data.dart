@@ -226,10 +226,28 @@ class AppFormListData {
     "Rs. 20 - 35 Lakh",
     "Rs. 35 - 50 Lakh",
     "Rs. 50 - 75 Lakh",
-    "Rs. 50 - 75 Lakh",
     "Rs. 75 - 100 Lakh",
     "Rs. 1 Crore & Above",
   ];
+
+  Map<String, String> annualIncomeInRupeesMap = {
+    "No Income": "",
+    "Rs. 0 - 1 Lakh": "Monthly income is ₹(0 to 8,3330 approx",
+    "Rs. 1 - 2 Lakh": "Monthly income is ₹(8,333 to 16,667) approx",
+    "Rs. 2 - 3 Lakh": "Monthly income is ₹(16,667 to 25,000) approx",
+    "Rs. 3 - 4 Lakh": "Monthly income is ₹(25,000 to 33,333) approx",
+    "Rs. 4 - 5 Lakh": "Monthly income is ₹(33,333 to 41,667) approx",
+    "Rs. 5 - 7 Lakh": "Monthly income is ₹(41,667 to 58,333) approx",
+    "Rs. 7 - 10 Lakh": "Monthly income is ₹(58,333 to 83,333) approx",
+    "Rs. 10 - 12 Lakh": "Monthly income is ₹(83,333 to 100,000) approx",
+    "Rs. 12 - 15 Lakh": "Monthly income is ₹(100,000 to 125,000) approx",
+    "Rs. 15 - 20 Lakh": "Monthly income is ₹(125,000 to 166,667) approx",
+    "Rs. 20 - 35 Lakh": "Monthly income is ₹(166,667 to 291,667) approx",
+    "Rs. 35 - 50 Lakh": "Monthly income is ₹(291,667 to 416,667) approx",
+    "Rs. 50 - 75 Lakh": "Monthly income is ₹(416,667 to 625,000) approx",
+    "Rs. 75 - 100 Lakh": "Monthly income is ₹(625,000 to 833,333) approx",
+    "Rs. 1 Crore & Above": "Monthly income is ₹8,33,333 approx",
+  };
 
   final List<String> highestEducationList = [
     'Arts/Science##B.A.',
@@ -407,7 +425,6 @@ class AppFormListData {
       'Tutuila': ['Pago Pago', 'Fagatogo', 'Nu’uuli', 'Tafuna'],
       'Manu’a Islands': ['Ta’u', 'Ofu', 'Olosega'],
       'Swains Island': ['Taulaga'],
-      'Rose Atoll': [], // Uninhabited, but still part of American Samoa
     },
     'Australia': {
       'New South Wales': ['Sydney', 'Newcastle', 'Wollongong'],

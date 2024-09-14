@@ -5,7 +5,8 @@ import 'app_text_style.dart';
 
 class ChoiceButton extends StatelessWidget {
   final String label;
-  final bool isPressed;
+  final int
+      isPressed; // isPressed =2 means button pressed,   isPressed =1 or 0 means grey border, isPressed = 3 show red border
   final VoidCallback onPressed;
 
   const ChoiceButton(
@@ -19,10 +20,15 @@ class ChoiceButton extends StatelessWidget {
     return OutlinedButton(
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
-        backgroundColor: isPressed ? AppColors.pink : AppColors.mainBackground,
+        backgroundColor:
+            isPressed == 2 ? AppColors.pink : AppColors.mainBackground,
         padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 4),
         side: BorderSide(
-            color: isPressed ? AppColors.pink : AppColors.greyLight,
+            color: isPressed == 2
+                ? AppColors.pink
+                : isPressed == 3
+                    ? AppColors.red
+                    : AppColors.greyLight,
             width: 1.5),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
@@ -32,7 +38,7 @@ class ChoiceButton extends StatelessWidget {
         label,
         style: AppTextStyle.bold(
             fontSize: 15,
-            color: isPressed ? AppColors.white : AppColors.greyDark),
+            color: isPressed == 2 ? AppColors.white : AppColors.greyDark),
       ),
     );
   }

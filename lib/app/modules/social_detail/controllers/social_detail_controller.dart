@@ -24,6 +24,7 @@ class SocialDetailController extends GetxController {
   RxString selectedCasteString = "".obs;
   RxString selectedHigherEducation = "".obs;
   RxString selectedEmployedIn = "".obs;
+  RxString annualIncomInRupees = "".obs;
 
   @override
   void onInit() {
@@ -167,6 +168,7 @@ class SocialDetailController extends GetxController {
   void onClickOccupation() {
     CommonPopUp.showBottomSheetList(
       context: Get.context,
+      height: Get.height * 0.7,
       title: 'Select Occupation*',
       list: AppFormListData.instance.occupationList,
       selectedValue: occupationTextController.text,
@@ -186,6 +188,8 @@ class SocialDetailController extends GetxController {
       selectedValue: annualIncomeTextController.text,
       onTap: (value) async {
         annualIncomeTextController.text = value;
+        annualIncomInRupees.value =
+            AppFormListData.instance.annualIncomeInRupeesMap[value]!;
         callListWhichIsEmpty("annual");
       },
     );
