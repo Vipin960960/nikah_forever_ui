@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nikah_forever_ui/app/app_widgets/app_text_style.dart';
+import 'package:nikah_forever_ui/app/constants/app_strings.dart';
 import 'package:nikah_forever_ui/app/utils/common_methods.dart';
 
 import '../../../app_widgets/choice_button.dart';
@@ -27,18 +28,18 @@ class BasicDetailView extends GetView<BasicDetailController> {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  StepIndicator(isActive: true, step: 1),
+                  StepIndicator(status: StepStatus.active, step: 1),
                   CustomLinearProgress(progress: 0.5),
-                  StepIndicator(isActive: false, step: 2),
+                  StepIndicator(status: StepStatus.inactive, step: 2),
                   CustomLinearProgress(progress: 0),
-                  StepIndicator(isActive: false, step: 3),
+                  StepIndicator(status: StepStatus.inactive, step: 3),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Basic Details",
+                    AppStrings.basicDetails,
                     style:
                         AppTextStyle.bold(fontSize: 12, color: AppColors.pink),
                   ),
@@ -46,14 +47,14 @@ class BasicDetailView extends GetView<BasicDetailController> {
                     width: 25,
                   ),
                   Text(
-                    "Social Details",
+                    AppStrings.socialDetails,
                     style: AppTextStyle.regular(fontSize: 12),
                   ),
                   const SizedBox(
                     width: 25,
                   ),
                   Text(
-                    "Verification",
+                    AppStrings.verification,
                     style: AppTextStyle.regular(fontSize: 12),
                   ),
                 ],
@@ -70,7 +71,7 @@ class BasicDetailView extends GetView<BasicDetailController> {
                       children: [
                         CustomTextFormField(
                           controller: controller.nameTextController,
-                          labelText: "Enter your name",
+                          labelText: AppStrings.enterName,
                           keyboardType: TextInputType.name,
                           validator: (value) {
                             return null;
@@ -79,7 +80,7 @@ class BasicDetailView extends GetView<BasicDetailController> {
                         const SizedBox(height: 5),
                         CustomTextFormField(
                           controller: controller.dateOfBirthTextController,
-                          labelText: "Date of birth*",
+                          labelText: AppStrings.dateOfBirth,
                           suffixIcon: const Icon(Icons.keyboard_arrow_down),
                           validator: CommonMethods.commonValidation,
                           onTap: (value) {
@@ -89,7 +90,7 @@ class BasicDetailView extends GetView<BasicDetailController> {
                         const SizedBox(height: 5),
                         CustomTextFormField(
                           controller: controller.heightTextController,
-                          labelText: "Height*",
+                          labelText: AppStrings.height,
                           suffixIcon: const Icon(Icons.keyboard_arrow_down),
                           validator: CommonMethods.commonValidation,
                           onTap: (value) {
@@ -99,7 +100,7 @@ class BasicDetailView extends GetView<BasicDetailController> {
                         const SizedBox(height: 5),
                         CustomTextFormField(
                           controller: controller.whereDoYouLiveTextController,
-                          labelText: "Where do you live*",
+                          labelText: AppStrings.whereDoYouLive,
                           suffixIcon: const Icon(Icons.keyboard_arrow_down),
                           validator: CommonMethods.commonValidation,
                           onTap: (value) {
@@ -109,7 +110,7 @@ class BasicDetailView extends GetView<BasicDetailController> {
                         ),
                         const SizedBox(height: 15),
                         Text(
-                          "  Do you live with your family?",
+                          AppStrings.doYouLiveWithFamily,
                           style: AppTextStyle.regular(
                             fontSize: 13,
                             color: AppColors.greyLight,
@@ -126,31 +127,17 @@ class BasicDetailView extends GetView<BasicDetailController> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   ChoiceButton(
-                                    label: "Yes",
+                                    label: AppStrings.yesButton,
                                     onPressed: controller
                                         .onClickYesButtonDoesYourFamilyLive,
-                                    isPressed:
-                                        controller.isLivingWithFamily.value == 1
-                                            ? 2
-                                            : controller.isLivingWithFamily
-                                                        .value ==
-                                                    4
-                                                ? 3
-                                                : 1,
+                                    status: controller.getYesNoPressed(true),
                                   ),
                                   const SizedBox(width: 20),
                                   ChoiceButton(
-                                    label: "No",
+                                    label: AppStrings.noButton,
                                     onPressed: controller
                                         .onClickNoButtonDoesYourFamilyLive,
-                                    isPressed:
-                                        controller.isLivingWithFamily.value == 2
-                                            ? 2
-                                            : controller.isLivingWithFamily
-                                                        .value ==
-                                                    4
-                                                ? 3
-                                                : 1,
+                                    status: controller.getYesNoPressed(false),
                                   ),
                                 ],
                               ),
@@ -158,7 +145,7 @@ class BasicDetailView extends GetView<BasicDetailController> {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 5.0),
                                   child: Text(
-                                    "     This field can't be empty",
+                                    "     ${AppStrings.fieldCanNotBeEmpty}",
                                     style: AppTextStyle.regular(
                                       fontSize: 13,
                                       color: AppColors.red,
@@ -171,7 +158,7 @@ class BasicDetailView extends GetView<BasicDetailController> {
                                 CustomTextFormField(
                                   controller: controller
                                       .whereDoesYourFamilyLiveTextController,
-                                  labelText: "Where does your family live*",
+                                  labelText: AppStrings.whereDoesYourFamilyLive,
                                   suffixIcon:
                                       const Icon(Icons.keyboard_arrow_down),
                                   onTap: (value) {
@@ -204,8 +191,8 @@ class BasicDetailView extends GetView<BasicDetailController> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             controller.isHittingApi.value
-                                ? "Please wait"
-                                : "Next",
+                                ? AppStrings.pleaseWaitButton
+                                : AppStrings.nextButton,
                             style: AppTextStyle.bold(
                                 fontSize: 15, color: AppColors.white),
                           ),

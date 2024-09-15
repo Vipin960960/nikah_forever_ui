@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nikah_forever_ui/app/constants/app_form_list_data.dart';
+import 'package:nikah_forever_ui/app/constants/app_strings.dart';
 
+import '../../../app_widgets/choice_button.dart';
 import '../../../routes/app_pages.dart';
 import '../../../utils/common_methods.dart';
 import '../../../utils/common_pop_up.dart';
@@ -36,16 +38,21 @@ class BasicDetailController extends GetxController {
 
     // Selecting date of birth
     final currentDate = DateTime.now();
+
+    // Month & Day =1 so that user can go till january &  day 1 after selecting min year
     minDateOfBirth = DateTime(
       currentDate.year - 74,
-      currentDate.month,
-      currentDate.day,
+      1,
+      1,
     );
+    // Month = 12 & Day = 31 so that user can go till december &  day 31 after selecting max year
     maxDateOfBirth = DateTime(
       currentDate.year - 21,
       12,
       31,
     );
+
+    // Just to start from mid
     selectedDateOfBirth = DateTime(
       maxDateOfBirth.year - 3,
       7,
@@ -76,13 +83,13 @@ class BasicDetailController extends GetxController {
     CommonPopUp.showBottomSheetList(
       context: Get.context,
       height: Get.height * 0.7,
-      title: 'Select Height*',
+      title: 'Select ${AppStrings.height}',
       list: AppFormListData.instance.heightList,
       selectedValue: heightTextController.text,
       removeSearchBox: true,
       onTap: (value) {
         heightTextController.text = value;
-        callListWhichIsEmpty("height");
+        callListWhichIsEmpty(heightTextController);
       },
     );
   }
@@ -135,7 +142,7 @@ class BasicDetailController extends GetxController {
               selectedValue: selectedCity,
               onTap: (city) {
                 controller.text = "$country, $state, $city";
-                callListWhichIsEmpty("whereDoYouLive");
+                callListWhichIsEmpty(controller);
               },
             );
           },
@@ -155,7 +162,7 @@ class BasicDetailController extends GetxController {
   void onClickConfirmOfDateOfBirth(value) {
     dateOfBirthTextController.text = value;
     Get.back();
-    callListWhichIsEmpty("date");
+    callListWhichIsEmpty(dateOfBirthTextController);
   }
 
   Future<void> onClickNext() async {
@@ -176,12 +183,13 @@ class BasicDetailController extends GetxController {
     }
   }
 
-  Future<void> callListWhichIsEmpty(comingFrom) async {
+  Future<void> callListWhichIsEmpty(TextEditingController controller) async {
     await CommonMethods.timerForNextList();
 
-    if (comingFrom == "date" && heightTextController.text.isEmpty) {
+    if (controller == dateOfBirthTextController &&
+        heightTextController.text.isEmpty) {
       onClickHeight();
-    } else if (comingFrom == "height" &&
+    } else if (controller == heightTextController &&
         whereDoYouLiveTextController.text.isEmpty) {
       onClickWhereDoYouLive(whereDoYouLiveTextController);
     } else if (dateOfBirthTextController.text.isEmpty) {
@@ -191,5 +199,14 @@ class BasicDetailController extends GetxController {
     } else if (whereDoYouLiveTextController.text.isEmpty) {
       onClickWhereDoYouLive(whereDoYouLiveTextController);
     }
+  }
+
+  ChoiceStatus getYesNoPressed(bool isYesButton) {
+    return (isYesButton && isLivingWithFamily.value == 1) ||
+            (!isYesButton && isLivingWithFamily.value == 2)
+        ? ChoiceStatus.active
+        : isLivingWithFamily.value == 4
+            ? ChoiceStatus.error
+            : ChoiceStatus.inactive;
   }
 }

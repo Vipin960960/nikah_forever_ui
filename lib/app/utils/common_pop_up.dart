@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nikah_forever_ui/app/app_widgets/app_text_style.dart';
 import 'package:nikah_forever_ui/app/app_widgets/custom_text_form_field.dart';
+import 'package:nikah_forever_ui/app/constants/app_strings.dart';
 
 import '../constants/app_colors.dart';
 
@@ -158,11 +159,13 @@ class CommonPopUp {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                if (searchedList[index].contains("##") &&
+                                if (searchedList[index]
+                                        .contains(AppStrings.split) &&
                                     !containCategory.contains(
-                                        searchedList[index].split("##")[0]))
-                                  getCategoryText(
-                                      searchedList[index].split("##")[0]),
+                                        searchedList[index]
+                                            .split(AppStrings.split)[0]))
+                                  getCategoryText(searchedList[index]
+                                      .split(AppStrings.split)[0]),
                                 InkWell(
                                   onTap: () {
                                     onTap(getSplitValue(searchedList[index]));
@@ -219,7 +222,9 @@ class CommonPopUp {
   }
 
   static getSplitValue(value) {
-    return value.contains("##") ? value.split("##")[1] : value;
+    return value.contains(AppStrings.split)
+        ? value.split(AppStrings.split)[1]
+        : value;
   }
 
   static Widget getCategoryText(String value) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nikah_forever_ui/app/constants/app_compare_strings.dart';
+import 'package:nikah_forever_ui/app/constants/app_strings.dart';
 
 import '../constants/app_colors.dart';
 
@@ -11,7 +11,7 @@ class AppTextStyle {
     Color? color,
   }) {
     return TextStyle(
-      fontFamily: AppCompareStrings.fontName,
+      fontFamily: AppStrings.fontName,
       fontSize: fontSize,
       color: color ?? AppColors.black,
       fontWeight: FontWeight.w400,
@@ -25,7 +25,7 @@ class AppTextStyle {
     Color? color,
   }) {
     return TextStyle(
-      fontFamily: AppCompareStrings.fontName,
+      fontFamily: AppStrings.fontName,
       fontSize: fontSize,
       color: color ?? AppColors.black,
       fontWeight: FontWeight.w600,
@@ -43,7 +43,7 @@ class AppTextStyle {
     TextOverflow? overflow,
   }) {
     return TextStyle(
-      fontFamily: AppCompareStrings.fontName,
+      fontFamily: AppStrings.fontName,
       fontSize: fontSize,
       color: color ?? AppColors.black,
       fontWeight: fontWeight ?? FontWeight.w400,

@@ -10,6 +10,8 @@ dependencies:
 #  For state management in getX
   get: 4.6.6
 
+  pin_code_fields: ^8.0.1
+
 
   flutter: 
     sdk: flutter

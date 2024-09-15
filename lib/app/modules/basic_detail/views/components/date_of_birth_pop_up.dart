@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nikah_forever_ui/app/constants/app_strings.dart';
 import 'package:nikah_forever_ui/app/modules/basic_detail/controllers/basic_detail_controller.dart';
 
 import '../../../../app_widgets/app_text_style.dart';
@@ -19,7 +20,7 @@ class DateOfBirthPopUp extends GetView<BasicDetailController> {
           child: Row(
             children: [
               Text(
-                "Add Date of Birth",
+                AppStrings.addDateOfBirth,
                 style: AppTextStyle.bold(fontSize: 19),
               ),
               const Spacer(),
@@ -73,7 +74,7 @@ class DateOfBirthPopUp extends GetView<BasicDetailController> {
             ),
             child: Center(
               child: Text(
-                "Confirm",
+                AppStrings.confirmButton,
                 style: AppTextStyle.bold(fontSize: 20, color: AppColors.white),
               ),
             ),

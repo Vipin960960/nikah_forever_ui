@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nikah_forever_ui/app/constants/app_strings.dart';
 import 'package:nikah_forever_ui/app/constants/app_form_list_data.dart';
 
 import '../../../routes/app_pages.dart';
@@ -24,7 +25,7 @@ class SocialDetailController extends GetxController {
   RxString selectedCasteString = "".obs;
   RxString selectedHigherEducation = "".obs;
   RxString selectedEmployedIn = "".obs;
-  RxString annualIncomInRupees = "".obs;
+  RxString annualIncomeInRupees = "".obs;
 
   @override
   void onInit() {
@@ -58,13 +59,13 @@ class SocialDetailController extends GetxController {
     CommonPopUp.showBottomSheetList(
       context: Get.context,
       height: Get.height * 0.36,
-      title: 'Select Marital Status*',
+      title: 'Select ${AppStrings.maritalStatus}',
       removeSearchBox: true,
       list: AppFormListData.instance.maritalStateList,
       selectedValue: maritalStatusTextController.text,
       onTap: (value) async {
         maritalStatusTextController.text = value;
-        callListWhichIsEmpty("marital");
+        callListWhichIsEmpty(maritalStatusTextController);
       },
     );
   }
@@ -73,12 +74,12 @@ class SocialDetailController extends GetxController {
     CommonPopUp.showBottomSheetList(
       context: Get.context,
       height: Get.height * 0.7,
-      title: 'Select Mother Tongue*',
+      title: 'Select ${AppStrings.motherTongue}',
       list: AppFormListData.instance.motherTongueList,
       selectedValue: motherTongueTextController.text,
       onTap: (value) async {
         motherTongueTextController.text = value;
-        callListWhichIsEmpty("mother");
+        callListWhichIsEmpty(motherTongueTextController);
       },
     );
   }
@@ -113,7 +114,7 @@ class SocialDetailController extends GetxController {
           onTap: (casteValue) async {
             selectedCasteString.value = "$sectValue, $casteValue";
             sectCasteTextController.text = "$sectValue, $casteValue";
-            callListWhichIsEmpty("sect");
+            callListWhichIsEmpty(sectCasteTextController);
           },
         );
       },
@@ -123,7 +124,7 @@ class SocialDetailController extends GetxController {
   void onClickMaslak() {
     CommonPopUp.showBottomSheetList(
       context: Get.context,
-      title: 'Select Maslak',
+      title: 'Select ${AppStrings.maslak}',
       removeSearchBox: true,
       list: AppFormListData.instance.maslakList,
       selectedValue: maslakTextController.text,
@@ -137,14 +138,14 @@ class SocialDetailController extends GetxController {
     CommonPopUp.showBottomSheetList(
       context: Get.context,
       height: Get.height * 0.7,
-      title: 'Select Highest Education*',
+      title: 'Select ${AppStrings.highestEducation}',
       list: AppFormListData.instance.highestEducationList,
       selectedValue: highestEducationTextController.text,
       onTap: (value) async {
         selectedHigherEducation.value = value;
         highestEducationTextController.text = value;
 
-        callListWhichIsEmpty("education");
+        callListWhichIsEmpty(highestEducationTextController);
       },
     );
   }
@@ -152,7 +153,7 @@ class SocialDetailController extends GetxController {
   void onClickEmployedIn() {
     CommonPopUp.showBottomSheetList(
       context: Get.context,
-      title: 'Select Employed In*',
+      title: 'Select ${AppStrings.employedIn}',
       removeSearchBox: true,
       list: AppFormListData.instance.employedIdList,
       selectedValue: employedInTextController.text,
@@ -160,7 +161,7 @@ class SocialDetailController extends GetxController {
         selectedEmployedIn.value = value;
         employedInTextController.text = value;
 
-        callListWhichIsEmpty("employed");
+        callListWhichIsEmpty(employedInTextController);
       },
     );
   }
@@ -169,12 +170,12 @@ class SocialDetailController extends GetxController {
     CommonPopUp.showBottomSheetList(
       context: Get.context,
       height: Get.height * 0.7,
-      title: 'Select Occupation*',
+      title: 'Select ${AppStrings.occupation}',
       list: AppFormListData.instance.occupationList,
       selectedValue: occupationTextController.text,
       onTap: (value) async {
         occupationTextController.text = value;
-        callListWhichIsEmpty("occupation");
+        callListWhichIsEmpty(occupationTextController);
       },
     );
   }
@@ -183,14 +184,14 @@ class SocialDetailController extends GetxController {
     CommonPopUp.showBottomSheetList(
       context: Get.context,
       height: Get.height * 0.7,
-      title: 'Select Annual Income*',
+      title: 'Select ${AppStrings.annualIncome}',
       list: AppFormListData.instance.annualIncomeList,
       selectedValue: annualIncomeTextController.text,
       onTap: (value) async {
         annualIncomeTextController.text = value;
-        annualIncomInRupees.value =
+        annualIncomeInRupees.value =
             AppFormListData.instance.annualIncomeInRupeesMap[value]!;
-        callListWhichIsEmpty("annual");
+        callListWhichIsEmpty(annualIncomeTextController);
       },
     );
   }
@@ -204,23 +205,23 @@ class SocialDetailController extends GetxController {
     }
   }
 
-  Future<void> callListWhichIsEmpty(comingFrom) async {
+  Future<void> callListWhichIsEmpty(TextEditingController controller) async {
     await CommonMethods.timerForNextList();
 
-    if (comingFrom == "marital" && motherTongueTextController.text.isEmpty) {
+    if (controller == maritalStatusTextController && motherTongueTextController.text.isEmpty) {
       onClickMotherTongue();
-    } else if (comingFrom == "mother" && sectCasteTextController.text.isEmpty) {
+    } else if (controller == motherTongueTextController && sectCasteTextController.text.isEmpty) {
       onClickSectCaste();
-    } else if (comingFrom == "sect" &&
+    } else if (controller == sectCasteTextController &&
         highestEducationTextController.text.isEmpty) {
       onClickHighestEducation();
-    } else if (comingFrom == "education" &&
+    } else if (controller == highestEducationTextController &&
         employedInTextController.text.isEmpty) {
       onClickEmployedIn();
-    } else if (comingFrom == "employed" &&
+    } else if (controller == employedInTextController &&
         occupationTextController.text.isEmpty) {
       onClickOccupation();
-    } else if (comingFrom == "occupation" &&
+    } else if (controller == occupationTextController &&
         annualIncomeTextController.text.isEmpty) {
       onClickAnnualIncome();
     } else if (maritalStatusTextController.text.isEmpty) {

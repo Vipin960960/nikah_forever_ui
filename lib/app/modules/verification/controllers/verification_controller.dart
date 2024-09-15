@@ -1,23 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class VerificationController extends GetxController {
-  //TODO: Implement VerificationController
+  late TextEditingController pinTextController;
 
-  final count = 0.obs;
   @override
   void onInit() {
+    pinTextController = TextEditingController();
     super.onInit();
   }
 
   @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
   void onClose() {
+    pinTextController.dispose();
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

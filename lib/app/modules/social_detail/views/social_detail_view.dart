@@ -6,8 +6,8 @@ import 'package:nikah_forever_ui/app/utils/common_methods.dart';
 import '../../../app_widgets/custom_linear_progress.dart';
 import '../../../app_widgets/custom_text_form_field.dart';
 import '../../../app_widgets/step_indicator.dart';
-import '../../../constants/app_assets.dart';
 import '../../../constants/app_colors.dart';
+import '../../../constants/app_strings.dart';
 import '../controllers/social_detail_controller.dart';
 
 class SocialDetailView extends GetView<SocialDetailController> {
@@ -24,35 +24,21 @@ class SocialDetailView extends GetView<SocialDetailController> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: AppColors.pink,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Image.asset(
-                      AppAssetsImage.tick,
-                      width: 14,
-                      color: AppColors.white,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 6,
-                  ),
-                  const CustomLinearProgress(progress: 1),
-                  const StepIndicator(isActive: true, step: 2),
-                  const CustomLinearProgress(progress: 0.5),
-                  const StepIndicator(isActive: false, step: 3),
+                  StepIndicator(status: StepStatus.complete, step: 2),
+                  CustomLinearProgress(progress: 1),
+                  StepIndicator(status: StepStatus.active, step: 2),
+                  CustomLinearProgress(progress: 0.5),
+                  StepIndicator(status: StepStatus.inactive, step: 3),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Basic Details",
+                    AppStrings.basicDetails,
                     style:
                         AppTextStyle.bold(fontSize: 12, color: AppColors.pink),
                   ),
@@ -60,7 +46,7 @@ class SocialDetailView extends GetView<SocialDetailController> {
                     width: 25,
                   ),
                   Text(
-                    "Social Details",
+                    AppStrings.socialDetails,
                     style:
                         AppTextStyle.bold(fontSize: 12, color: AppColors.pink),
                   ),
@@ -68,7 +54,7 @@ class SocialDetailView extends GetView<SocialDetailController> {
                     width: 25,
                   ),
                   Text(
-                    "Verification",
+                    AppStrings.verification,
                     style: AppTextStyle.regular(fontSize: 12),
                   ),
                 ],
@@ -86,7 +72,7 @@ class SocialDetailView extends GetView<SocialDetailController> {
                         children: [
                           CustomTextFormField(
                             controller: controller.maritalStatusTextController,
-                            labelText: "Marital Status*",
+                            labelText: AppStrings.maritalStatus,
                             suffixIcon: const Icon(Icons.keyboard_arrow_down),
                             validator: CommonMethods.commonValidation,
                             onTap: (value) {
@@ -96,7 +82,7 @@ class SocialDetailView extends GetView<SocialDetailController> {
                           const SizedBox(height: 3),
                           CustomTextFormField(
                             controller: controller.motherTongueTextController,
-                            labelText: "Mother Tongue*",
+                            labelText: AppStrings.motherTongue,
                             suffixIcon: const Icon(Icons.keyboard_arrow_down),
                             validator: CommonMethods.commonValidation,
                             onTap: (value) {
@@ -106,7 +92,7 @@ class SocialDetailView extends GetView<SocialDetailController> {
                           const SizedBox(height: 3),
                           CustomTextFormField(
                             controller: controller.sectCasteTextController,
-                            labelText: "Sect/Caste",
+                            labelText: AppStrings.sectCaste,
                             suffixIcon: const Icon(Icons.keyboard_arrow_down),
                             validator: CommonMethods.commonValidation,
                             onTap: (value) {
@@ -118,7 +104,7 @@ class SocialDetailView extends GetView<SocialDetailController> {
                           if (controller.selectedCasteString.value.isNotEmpty)
                             CustomTextFormField(
                               controller: controller.maslakTextController,
-                              labelText: "Maslak (Optional)",
+                              labelText: AppStrings.maslak,
                               suffixIcon: const Icon(Icons.keyboard_arrow_down),
                               validator: (value) => null,
                               onTap: (value) {
@@ -129,7 +115,7 @@ class SocialDetailView extends GetView<SocialDetailController> {
                           CustomTextFormField(
                             controller:
                                 controller.highestEducationTextController,
-                            labelText: "Highest Education*",
+                            labelText: AppStrings.highestEducation,
                             suffixIcon: const Icon(Icons.keyboard_arrow_down),
                             validator: CommonMethods.commonValidation,
                             onTap: (value) {
@@ -143,7 +129,7 @@ class SocialDetailView extends GetView<SocialDetailController> {
                               .selectedHigherEducation.value.isNotEmpty)
                             CustomTextFormField(
                               controller: controller.employedInTextController,
-                              labelText: "Employed In*",
+                              labelText: AppStrings.employedIn,
                               suffixIcon: const Icon(Icons.keyboard_arrow_down),
                               validator: CommonMethods.commonValidation,
                               onTap: (value) {
@@ -155,7 +141,7 @@ class SocialDetailView extends GetView<SocialDetailController> {
                           if (controller.selectedEmployedIn.value.isNotEmpty)
                             CustomTextFormField(
                               controller: controller.occupationTextController,
-                              labelText: "Occupation*",
+                              labelText: AppStrings.occupation,
                               suffixIcon: const Icon(Icons.keyboard_arrow_down),
                               validator: CommonMethods.commonValidation,
                               onTap: (value) {
@@ -167,16 +153,16 @@ class SocialDetailView extends GetView<SocialDetailController> {
                           if (controller.selectedEmployedIn.value.isNotEmpty)
                             CustomTextFormField(
                               controller: controller.annualIncomeTextController,
-                              labelText: "Annual Income*",
+                              labelText: AppStrings.annualIncome,
                               suffixIcon: const Icon(Icons.keyboard_arrow_down),
                               validator: CommonMethods.commonValidation,
                               onTap: (value) {
                                 controller.onClickAnnualIncome();
                               },
                             ),
-                          if (controller.annualIncomInRupees.value.isNotEmpty)
+                          if (controller.annualIncomeInRupees.value.isNotEmpty)
                             Text(
-                              "     ${controller.annualIncomInRupees.value}",
+                              "     ${controller.annualIncomeInRupees.value}",
                               style: AppTextStyle.regular(
                                 fontSize: 13,
                                 color: AppColors.red,
@@ -207,8 +193,8 @@ class SocialDetailView extends GetView<SocialDetailController> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             controller.isHittingApi.value
-                                ? "Please wait"
-                                : "Next",
+                                ? AppStrings.pleaseWaitButton
+                                : AppStrings.nextButton,
                             style: AppTextStyle.bold(
                                 fontSize: 15, color: AppColors.white),
                           ),
