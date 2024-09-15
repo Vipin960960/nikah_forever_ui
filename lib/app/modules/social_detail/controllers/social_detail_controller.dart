@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nikah_forever_ui/app/constants/app_strings.dart';
 import 'package:nikah_forever_ui/app/constants/app_form_list_data.dart';
+import 'package:nikah_forever_ui/app/constants/app_strings.dart';
 
 import '../../../routes/app_pages.dart';
 import '../../../utils/common_methods.dart';
@@ -201,16 +201,18 @@ class SocialDetailController extends GetxController {
       isHittingApi.value = true;
       await Future.delayed(const Duration(seconds: 2));
       isHittingApi.value = false;
-      Get.toNamed(Routes.VERIFICATION);
+      Get.offNamed(Routes.VERIFICATION);
     }
   }
 
   Future<void> callListWhichIsEmpty(TextEditingController controller) async {
     await CommonMethods.timerForNextList();
 
-    if (controller == maritalStatusTextController && motherTongueTextController.text.isEmpty) {
+    if (controller == maritalStatusTextController &&
+        motherTongueTextController.text.isEmpty) {
       onClickMotherTongue();
-    } else if (controller == motherTongueTextController && sectCasteTextController.text.isEmpty) {
+    } else if (controller == motherTongueTextController &&
+        sectCasteTextController.text.isEmpty) {
       onClickSectCaste();
     } else if (controller == sectCasteTextController &&
         highestEducationTextController.text.isEmpty) {

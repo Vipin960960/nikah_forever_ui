@@ -16,7 +16,6 @@ abstract class AppStrings {
   static const String confirmButton = "Confirm";
 
   // Basic Detail screen string
-
   static const String enterName = "Enter your name";
   static const String dateOfBirth = "Date of birth*";
   static const String height = "Height*";
@@ -37,4 +36,9 @@ abstract class AppStrings {
   static const String employedIn = "Employed In*";
   static const String occupation = "Occupation*";
   static const String annualIncome = "Annual Income*";
+
+  // Verify Mobile Screen
+  static const String verifyMobileNumber = "Verify Mobile Number";
+  static const String enter4Digit = "Enter the 4-digit code sent to";
+  static const String resendSMSIn = 'Resend SMS in ';
 }

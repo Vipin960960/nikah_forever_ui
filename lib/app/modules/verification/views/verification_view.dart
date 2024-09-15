@@ -27,7 +27,7 @@ class VerificationView extends GetView<VerificationController> {
               ),
               Center(
                 child: Text(
-                  "Verify Mobile Number",
+                  AppStrings.verifyMobileNumber,
                   style: AppTextStyle.bold(fontSize: 28),
                 ),
               ),
@@ -36,7 +36,7 @@ class VerificationView extends GetView<VerificationController> {
               ),
               Center(
                 child: Text(
-                  "Enter the 4-digit code sent to",
+                  AppStrings.enter4Digit,
                   style: AppTextStyle.regular(fontSize: 16),
                 ),
               ),
@@ -89,7 +89,7 @@ class VerificationView extends GetView<VerificationController> {
                     Icons.phone_android,
                     color: AppColors.pink,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 3,
                   ),
                   Text.rich(
@@ -97,7 +97,7 @@ class VerificationView extends GetView<VerificationController> {
                       text: '',
                       children: <InlineSpan>[
                         TextSpan(
-                          text: 'Resend SMS in ',
+                          text: AppStrings.resendSMSIn,
                           style: AppTextStyle.regular(fontSize: 15),
                         ),
                         TextSpan(
@@ -110,7 +110,7 @@ class VerificationView extends GetView<VerificationController> {
                 ],
               ),
               const SizedBox(
-                height: 50,
+                height: 150,
               ),
               Container(
                 height: 50,

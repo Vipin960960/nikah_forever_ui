@@ -172,7 +172,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     }
 
     // Todo have to check why its not working
-    // setState(() {});
+    setState(() {});
     widget.onSelectedItemChanged(_selectedDate);
   }
 
@@ -223,14 +223,6 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     final year = _minDate.year + _selectedYearIndex;
     return year % 4 == 0 &&
         (year % 100 != 0 || (year % 100 == 0 && year % 400 == 0));
-  }
-
-  /// get number of days for the selected month
-  int _numberOfDays() {
-    if (_selectedMonthIndex == 1) {
-      _days[1] = _isLeapYear() ? 29 : 28;
-    }
-    return _days[_selectedMonthIndex];
   }
 
   /// check if the given day, month or year index is disabled
@@ -298,7 +290,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
 
   Widget _daySelector() {
     return _selector(
-      values: List.generate(_numberOfDays(), (index) => index + 1),
+      values: List.generate(31, (index) => index + 1),
       selectedValueIndex: _selectedDayIndex,
       scrollController: _dayScrollController,
       isDisabled: (index) => _isDisabled(index, _SelectorType.day),

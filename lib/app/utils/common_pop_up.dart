@@ -192,7 +192,11 @@ class CommonPopUp {
                                         const SizedBox(
                                           width: 25,
                                         ),
-                                        getSearchText(searchedList[index]),
+                                        Text(
+                                          getSplitValue(searchedList[index]),
+                                          style: AppTextStyle.regular(
+                                              fontSize: 17),
+                                        )
                                       ],
                                     ),
                                   ),
@@ -209,15 +213,6 @@ class CommonPopUp {
           ),
         );
       },
-    );
-  }
-
-  static Widget getSearchText(String value) {
-    final text = getSplitValue(value);
-
-    return Text(
-      text,
-      style: AppTextStyle.regular(fontSize: 17),
     );
   }
 

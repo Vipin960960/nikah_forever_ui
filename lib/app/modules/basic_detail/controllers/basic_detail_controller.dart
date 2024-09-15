@@ -55,8 +55,8 @@ class BasicDetailController extends GetxController {
     // Just to start from mid
     selectedDateOfBirth = DateTime(
       maxDateOfBirth.year - 3,
-      7,
-      15,
+      currentDate.month,
+      currentDate.day,
     );
 
     super.onInit();
@@ -73,6 +73,12 @@ class BasicDetailController extends GetxController {
   }
 
   void onClickDateOfBirth() {
+    String date = dateOfBirthTextController.text;
+    if (date.isNotEmpty) {
+      // So that user will get old selected index item
+      selectedDateOfBirth = DateTime(int.parse(date.split("-")[2]),
+          int.parse(date.split("-")[1]), int.parse(date.split("-")[0]));
+    }
     CommonPopUp.showBottomSheetCustom(
         context: Get.context,
         removeTopRounder: true,

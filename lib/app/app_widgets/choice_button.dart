@@ -24,7 +24,10 @@ class ChoiceButton extends StatelessWidget {
         backgroundColor: status == ChoiceStatus.active
             ? AppColors.pink
             : AppColors.mainBackground,
-        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 4),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 50,
+          vertical: 4,
+        ),
         side: BorderSide(
             color: status == ChoiceStatus.active
                 ? AppColors.pink
@@ -39,10 +42,11 @@ class ChoiceButton extends StatelessWidget {
       child: Text(
         label,
         style: AppTextStyle.bold(
-            fontSize: 15,
-            color: status == ChoiceStatus.active
-                ? AppColors.white
-                : AppColors.greyDark),
+          fontSize: 15,
+          color: status == ChoiceStatus.active
+              ? AppColors.white
+              : AppColors.greyDark,
+        ),
       ),
     );
   }

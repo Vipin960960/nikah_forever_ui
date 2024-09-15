@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants/app_colors.dart';
+
 class CustomLinearProgress extends StatelessWidget {
   final double progress;
 
@@ -15,9 +17,9 @@ class CustomLinearProgress extends StatelessWidget {
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(4)),
         child: LinearProgressIndicator(
-          value: progress, // 50% progress
-          color: Colors.pinkAccent,
-          backgroundColor: Colors.grey[300],
+          value: progress,
+          color: AppColors.pink,
+          backgroundColor: AppColors.greyLight,
           minHeight: 3,
         ),
       ),

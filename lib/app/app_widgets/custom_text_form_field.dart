@@ -9,15 +9,15 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
 
-  final Widget? suffixIcon;
-  final Widget? prefixIcon;
-
-  final bool? obscureText;
-
   final void Function(String value)? onTap;
   final String? Function(String? value) validator;
   final String Function(String value)? onChanged;
   final String? labelText;
+
+  final bool? obscureText;
+
+  final Widget? suffixIcon;
+  final Widget? prefixIcon;
 
   const CustomTextFormField({
     super.key,

@@ -4,8 +4,7 @@ import 'package:nikah_forever_ui/app/constants/app_strings.dart';
 import '../constants/app_colors.dart';
 
 class AppTextStyle {
-  /// Gives bold font of open-sans of font size 16 & default
-  /// weight is w400.
+  /// Gives regular font of Lato of font size 16 & default weight is w400.
   static TextStyle regular({
     double fontSize = 16,
     Color? color,
@@ -18,8 +17,7 @@ class AppTextStyle {
     );
   }
 
-  /// Gives bold font of open-sans of font size 25 & default
-  /// weight is w500.
+  /// Gives regular font of Lato of font size 25 & default weight is w600.
   static TextStyle bold({
     double fontSize = 25,
     Color? color,
@@ -32,7 +30,7 @@ class AppTextStyle {
     );
   }
 
-  /// Gives customization option of open-sans of font size 16
+  /// Gives customization option of Lato of font size 16
   /// & default weight is w400.
   static TextStyle custom({
     double fontSize = 16,
