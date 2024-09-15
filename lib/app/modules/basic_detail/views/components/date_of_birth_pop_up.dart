@@ -67,7 +67,7 @@ class DateOfBirthPopUp extends GetView<BasicDetailController> {
           child: Container(
             height: 50,
             width: Get.width,
-            margin: const EdgeInsets.only(left: 18.0, right: 18, bottom: 5),
+            margin: const EdgeInsets.only(left: 18.0, right: 18, bottom: 15),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: AppColors.pink,
@@ -79,7 +79,7 @@ class DateOfBirthPopUp extends GetView<BasicDetailController> {
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
