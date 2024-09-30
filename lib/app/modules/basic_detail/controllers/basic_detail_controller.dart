@@ -3,15 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nikah_forever_ui/app/constants/app_form_list_data.dart';
 import 'package:nikah_forever_ui/app/constants/app_strings.dart';
+import 'package:nikah_forever_ui/app/models/country_and_state_model.dart';
 
 import '../../../app_widgets/choice_button.dart';
+import '../../../models/city_of_state_model.dart';
 import '../../../routes/app_pages.dart';
+import '../../../utils/common_api_client.dart';
 import '../../../utils/common_methods.dart';
 import '../../../utils/common_pop_up.dart';
 import '../views/components/date_of_birth_pop_up.dart';
 
 class BasicDetailController extends GetxController {
   final basicDetailFormKey = GlobalKey<FormState>();
+  late ApiClient apiClient;
 
   late TextEditingController nameTextController;
   late TextEditingController dateOfBirthTextController;
@@ -24,40 +28,32 @@ class BasicDetailController extends GetxController {
 
   RxBool isHittingApi = false.obs;
 
-  late final DateTime minDateOfBirth;
-  late final DateTime maxDateOfBirth;
+  late DateTime minDateOfBirth;
+  late DateTime maxDateOfBirth;
   late DateTime selectedDateOfBirth;
+  String male = "Male";
+  String female = "Female";
+  RxString selectedGender = "Male".obs;
 
+  List<String> countriesList = [];
+  List<String> citiesList = [];
+
+  CountryAndStateModel? countryAndStateModel;
   @override
   void onInit() {
+    if (Get.arguments != null) {
+      countryAndStateModel = Get.arguments;
+    }
+
+    apiClient = ApiClient();
+
     nameTextController = TextEditingController();
     dateOfBirthTextController = TextEditingController();
     heightTextController = TextEditingController();
     whereDoYouLiveTextController = TextEditingController();
     whereDoesYourFamilyLiveTextController = TextEditingController();
 
-    // Selecting date of birth
-    final currentDate = DateTime.now();
-
-    // Month & Day =1 so that user can go till january &  day 1 after selecting min year
-    minDateOfBirth = DateTime(
-      currentDate.year - 74,
-      1,
-      1,
-    );
-    // Month = 12 & Day = 31 so that user can go till december &  day 31 after selecting max year
-    maxDateOfBirth = DateTime(
-      currentDate.year - 21,
-      12,
-      31,
-    );
-
-    // Just to start from mid
-    selectedDateOfBirth = DateTime(
-      maxDateOfBirth.year - 3,
-      currentDate.month,
-      currentDate.day,
-    );
+    setGenderValidationOnDate(21);
 
     super.onInit();
   }
@@ -100,7 +96,14 @@ class BasicDetailController extends GetxController {
     );
   }
 
-  void onClickWhereDoYouLive(controller) {
+  Future<void> onClickWhereDoYouLive(controller) async {
+    if (countryAndStateModel == null) {
+      await getCountryAndState();
+    }
+
+    countriesList =
+        countryAndStateModel!.data!.map((value) => value.name!).toList();
+
     String selectedCountry = "";
     String selectedState = "";
     String selectedCity = "";
@@ -112,9 +115,8 @@ class BasicDetailController extends GetxController {
       selectedCity = oldCountry.split(", ")[2];
     }
 
-    List<String> countriesList =
-        AppFormListData.instance.countryMap.keys.toList();
-    countriesList.sort();
+    // countriesList =
+    //     AppFormListData.instance.countryMap.keys.toList();
 
     CommonPopUp.showBottomSheetList(
       context: Get.context,
@@ -124,8 +126,9 @@ class BasicDetailController extends GetxController {
       selectedValue: selectedCountry,
       onTap: (country) async {
         // Selecting State
+        // List<String> statesList = AppFormListData.instance.countryMap[country]!.keys.toList();
         List<String> statesList =
-            AppFormListData.instance.countryMap[country]!.keys.toList();
+            getStatesByCountryCode(countryAndStateModel!, country);
         statesList.sort();
         await CommonMethods.timerForNextList();
         CommonPopUp.showBottomSheetList(
@@ -136,14 +139,14 @@ class BasicDetailController extends GetxController {
           selectedValue: selectedState,
           onTap: (state) async {
             // Selecting city
-            List<String> citiesList =
-                AppFormListData.instance.countryMap[country]![state]!;
+
+            await getCityOfState(country, state);
             citiesList.sort();
             await CommonMethods.timerForNextList();
             CommonPopUp.showBottomSheetList(
               context: Get.context,
               height: Get.height * 0.7,
-              list: AppFormListData.instance.countryMap[country]![state]!,
+              list: citiesList,
               title: 'City in $state',
               selectedValue: selectedCity,
               onTap: (city) {
@@ -186,12 +189,13 @@ class BasicDetailController extends GetxController {
       isHittingApi.value = false;
 
       Get.offNamed(Routes.SOCIAL_DETAIL);
+    } else {
+      callListWhichIsEmpty(dateOfBirthTextController);
     }
   }
 
   Future<void> callListWhichIsEmpty(TextEditingController controller) async {
     await CommonMethods.timerForNextList();
-
     if (controller == dateOfBirthTextController &&
         heightTextController.text.isEmpty) {
       onClickHeight();
@@ -214,5 +218,79 @@ class BasicDetailController extends GetxController {
         : isLivingWithFamily.value == 4
             ? ChoiceStatus.error
             : ChoiceStatus.inactive;
+  }
+
+  void onChangeRadioButton(String? value) {
+    selectedGender.value = value!;
+    if (value == male) {
+      setGenderValidationOnDate(21);
+    } else if (value == female) {
+      setGenderValidationOnDate(18);
+    }
+  }
+
+  void setGenderValidationOnDate(int limit) {
+    // Selecting date of birth
+    final currentDate = DateTime.now();
+
+    // Month & Day =1 so that user can go till january &  day 1 after selecting min year
+    minDateOfBirth = DateTime(
+      currentDate.year - 74,
+      1,
+      1,
+    );
+    // Month = 12 & Day = 31 so that user can go till december &  day 31 after selecting max year
+    maxDateOfBirth = DateTime(
+      currentDate.year - limit,
+      12,
+      31,
+    );
+
+    // Just to start from mid
+    selectedDateOfBirth = DateTime(
+      maxDateOfBirth.year - 3,
+      currentDate.month,
+      currentDate.day,
+    );
+  }
+
+  List<String> getStatesByCountryCode(
+      CountryAndStateModel data, String countryName) {
+    List<CountryStateData> countries = data.data!;
+
+    for (var country in countries) {
+      if (country.name == countryName) {
+        return List<String>.from(
+            country.states!.map((value) => value.name).toList());
+      }
+    }
+    return [];
+  }
+
+  Future<void> getCountryAndState() async {
+    final response = await apiClient.getCountriesAndState();
+
+    if (response != null && response.data != null) {
+      countryAndStateModel = CountryAndStateModel.fromJson(response.data);
+    } else {
+      CommonPopUp.showSnackBar(AppStrings.error,
+          message: AppStrings.thereIsSomeError);
+    }
+  }
+
+  Future<void> getCityOfState(String country, String state) async {
+    final response = await apiClient.getCityOfState(state);
+
+    if (response != null && response.data != null) {
+      CityOfStateModel cityOfStateModel =
+          CityOfStateModel.fromJson(response.data);
+      citiesList =
+          cityOfStateModel.data!.map((value) => value.cityName!).toList();
+    } else {
+      citiesList = AppFormListData.instance.countryMap[country]![state]!;
+
+      CommonPopUp.showSnackBar(AppStrings.error,
+          message: AppStrings.thereIsSomeError);
+    }
   }
 }

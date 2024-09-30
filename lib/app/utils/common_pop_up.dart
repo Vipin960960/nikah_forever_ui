@@ -4,6 +4,7 @@ import 'package:nikah_forever_ui/app/app_widgets/app_text_style.dart';
 import 'package:nikah_forever_ui/app/app_widgets/custom_text_form_field.dart';
 import 'package:nikah_forever_ui/app/constants/app_strings.dart';
 
+import '../app_widgets/custom_button.dart';
 import '../constants/app_colors.dart';
 
 class CommonPopUp {
@@ -149,62 +150,80 @@ class CommonPopUp {
                             height: 15,
                           ),
                     Expanded(
-                      child: ListView(
-                        children: [
-                          for (int index = 0;
-                              index < searchedList.length;
-                              index++)
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                      child: searchedList.isNotEmpty
+                          ? ListView(
                               children: [
-                                if (searchedList[index]
-                                        .contains(AppStrings.split) &&
-                                    !containCategory.contains(
-                                        searchedList[index]
-                                            .split(AppStrings.split)[0]))
-                                  getCategoryText(searchedList[index]
-                                      .split(AppStrings.split)[0]),
-                                InkWell(
-                                  onTap: () {
-                                    onTap(getSplitValue(searchedList[index]));
-                                    Get.back();
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        25, 8, 25, 15),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          selectedValue ==
+                                for (int index = 0;
+                                    index < searchedList.length;
+                                    index++)
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      if (searchedList[index]
+                                              .contains(AppStrings.split) &&
+                                          !containCategory.contains(
+                                              searchedList[index]
+                                                  .split(AppStrings.split)[0]))
+                                        getCategoryText(searchedList[index]
+                                            .split(AppStrings.split)[0]),
+                                      InkWell(
+                                        onTap: () {
+                                          onTap(getSplitValue(
+                                              searchedList[index]));
+                                          Get.back();
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              25, 8, 25, 15),
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                selectedValue ==
+                                                        getSplitValue(
+                                                            searchedList[index])
+                                                    ? Icons.check_circle
+                                                    : Icons.circle_outlined,
+                                                size: 25,
+                                                color: selectedValue ==
+                                                        getSplitValue(
+                                                            searchedList[index])
+                                                    ? AppColors.pink
+                                                    : AppColors.blackLight,
+                                              ),
+                                              const SizedBox(
+                                                width: 25,
+                                              ),
+                                              Expanded(
+                                                child: Text(
                                                   getSplitValue(
-                                                      searchedList[index])
-                                              ? Icons.check_circle
-                                              : Icons.circle_outlined,
-                                          size: 25,
-                                          color: selectedValue ==
-                                                  getSplitValue(
-                                                      searchedList[index])
-                                              ? AppColors.pink
-                                              : AppColors.blackLight,
+                                                      searchedList[index]),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: AppTextStyle.regular(
+                                                      fontSize: 17),
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                        const SizedBox(
-                                          width: 25,
-                                        ),
-                                        Text(
-                                          getSplitValue(searchedList[index]),
-                                          style: AppTextStyle.regular(
-                                              fontSize: 17),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                      ),
+                                    ],
+                                  )
                               ],
                             )
-                        ],
-                      ),
+                          : Center(
+                              child: CustomButton(
+                                label: 'Proceed with search',
+                                onPressed: () {
+                                  onTap(controller.text);
+                                  Get.back();
+                                },
+                              ),
+                            ),
                     ),
                   ],
                 );
@@ -231,5 +250,20 @@ class CommonPopUp {
         style: AppTextStyle.bold(fontSize: 17),
       ),
     );
+  }
+
+  static void showSnackBar(
+    String title, {
+    String? message,
+    Color? color,
+  }) {
+    if (Get.isSnackbarOpen) {
+      Get.closeCurrentSnackbar();
+    }
+    Get.snackbar(title, message ?? "",
+        snackPosition: SnackPosition.BOTTOM,
+        animationDuration: const Duration(milliseconds: 0),
+        backgroundColor: color ?? Colors.grey,
+        margin: const EdgeInsets.only(bottom: 10));
   }
 }

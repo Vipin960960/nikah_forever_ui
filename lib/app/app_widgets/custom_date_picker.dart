@@ -12,17 +12,11 @@ class CustomDatePicker extends StatefulWidget {
   final double magnification;
   final double squeeze;
   final void Function(DateTime) onSelectedItemChanged;
-  // Text style of selected item
   final TextStyle? selectedStyle;
-  // Text style of unselected item
   final TextStyle? unselectedStyle;
-  // Text style of disabled item
   final TextStyle? disabledStyle;
-  // Minimum selectable date
   final DateTime? minDate;
-  // Maximum selectable date
   final DateTime? maxDate;
-  // Initially selected date
   final DateTime? selectedDate;
 
   const CustomDatePicker({
@@ -120,8 +114,6 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         break;
     }
 
-    // return if selected date is not the min - max date range
-    // scroll selector back to the valid point
     if (temp.isBefore(_minDate) || temp.isAfter(_maxDate)) {
       switch (type) {
         case _SelectorType.day:
@@ -136,9 +128,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       }
       return;
     }
-    // update selected date
     _selectedDate = temp;
-    // adjust other selectors when one selctor is changed
     switch (type) {
       case _SelectorType.day:
         _selectedDayIndex = index;
@@ -171,13 +161,13 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         break;
     }
 
-    // Todo have to check why its not working
     setState(() {});
     widget.onSelectedItemChanged(_selectedDate);
   }
 
   void _validateDates() {
     if (widget.minDate != null && widget.maxDate != null) {
+      //     ! inverts the result of isAfter. So, if minDate is not after maxDate, the expression inside assert evaluates to true and no error is thrown.
       assert(!widget.minDate!.isAfter(widget.maxDate!));
     }
     if (widget.minDate != null && widget.selectedDate != null) {
@@ -290,7 +280,11 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
 
   Widget _daySelector() {
     return _selector(
-      values: List.generate(31, (index) => index + 1),
+      values: List.generate(
+          (_selectedMonthIndex == 1 && _isLeapYear())
+              ? 29
+              : _days[_selectedMonthIndex],
+          (index) => index + 1),
       selectedValueIndex: _selectedDayIndex,
       scrollController: _dayScrollController,
       isDisabled: (index) => _isDisabled(index, _SelectorType.day),

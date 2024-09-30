@@ -1,8 +1,19 @@
 abstract class AppStrings {
   static const String appName = "Nikah Forever UI";
+  static const String apiToken =
+      'i9uNQxvDZnNc8vW2FqAIjNlj6xiAkuROuphx6LAGMosOkeM-YJJ7Yz-vk-1ArkwoLYA';
+  static const String apiEmail = 'vipindhiman854@gmail.com';
+
   static const String fontName = 'Lato';
 
   static const String split = "##";
+  static const String countriesData = "countries_data";
+
+  static const String error = "Error";
+  static const String somethingWentWrong = "Something Went Wrong!";
+  static const String loading = 'Loading';
+  static const String pleaseWait = "Please wait...";
+  static const String thereIsSomeError = "There is some error in api";
 
   // Steps string
   static const String basicDetails = "Basic Details";

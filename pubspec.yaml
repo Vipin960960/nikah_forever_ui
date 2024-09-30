@@ -16,6 +16,12 @@ dependencies:
 # To animate the Widgets
   animate_do: ^3.3.4
 
+  #  For Api request
+  dio: ^5.4.0
+
+  #  For loader
+  loader_overlay: ^4.0.0
+
 
   flutter: 
     sdk: flutter

@@ -81,6 +81,35 @@ class BasicDetailView extends GetView<BasicDetailController> {
                             },
                           ),
                           const SizedBox(height: 5),
+                          Obx(
+                            () => Row(
+                              children: [
+                                Radio(
+                                  value: controller.male,
+                                  groupValue: controller.selectedGender.value,
+                                  onChanged: (value) {
+                                    controller.onChangeRadioButton(value);
+                                  },
+                                ),
+                                Text(
+                                  "Male",
+                                  style: AppTextStyle.regular(),
+                                ),
+                                Radio(
+                                  value: controller.female,
+                                  groupValue: controller.selectedGender.value,
+                                  onChanged: (value) {
+                                    controller.onChangeRadioButton(value);
+                                  },
+                                ),
+                                Text(
+                                  "Female",
+                                  style: AppTextStyle.regular(),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 5),
                           CustomTextFormField(
                             controller: controller.dateOfBirthTextController,
                             labelText: AppStrings.dateOfBirth,

@@ -6,6 +6,7 @@ abstract class Routes {
   static const BASIC_DETAILS = _Paths.BASIC_DETAIL;
   static const SOCIAL_DETAIL = _Paths.SOCIAL_DETAIL;
   static const VERIFICATION = _Paths.VERIFICATION;
+  static const SPLASH = _Paths.SPLASH;
 }
 
 abstract class _Paths {
@@ -13,4 +14,5 @@ abstract class _Paths {
   static const BASIC_DETAIL = '/home';
   static const SOCIAL_DETAIL = '/social-detail';
   static const VERIFICATION = '/verification';
+  static const SPLASH = '/splash';
 }
